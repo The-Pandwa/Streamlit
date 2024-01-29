@@ -7,37 +7,37 @@ Original file is located at
     https://colab.research.google.com/drive/1t01fD9z84tnGuxm9mh0dYR08a8eBt_tT
 """
 
+# Import Library
 import streamlit as st
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
+# Import dataset
 link = "https://raw.githubusercontent.com/murpi/wilddata/master/quests/cars.csv"
 df_cars = pd.read_csv(link)
 
+# Création features et sidebar
 st.sidebar.title('Regions Cars')
-
-# Créez des boutons de sélection multiple pour chaque continent
-st.sidebar.write("Veuillez sélectionner un ou plusieurs pays.")
+st.sidebar.write("Veuillez sélectionner un ou plusieurs continents.")
 selected_continents = st.sidebar.multiselect('Sélectionnez les continents', ['US', 'Europe', 'Japan'])
-
 st.write("Voici les infos par régions sélectionnées :")
 
-# Initialisez un DataFrame vide pour stocker les résultats filtrés
-df_cars_merge = pd.DataFrame()
-
 # Filtrer le DataFrame en fonction des continents sélectionnés
-for continent in selected_continents:
-    if continent == 'US':
-        df_cars_merge = pd.concat([df_cars_merge, df_cars.loc[df_cars["continent"] == " US."]])
-    elif continent == 'Europe':
-        df_cars_merge = pd.concat([df_cars_merge, df_cars.loc[df_cars["continent"] == " Europe."]])
-    elif continent == 'Japan':
-        df_cars_merge = pd.concat([df_cars_merge, df_cars.loc[df_cars["continent"] == " Japan."]])
+df_cars_merge = pd.DataFrame()
+if "US" in selected_continents :
+    df_cars_merge = pd.concat([df_cars_merge, df_cars.loc[df_cars["continent"] == " US."]])
+if "Europe" in selected_continents :
+    df_cars_merge = pd.concat([df_cars_merge, df_cars.loc[df_cars["continent"] == " Europe."]])
+if "Japan" in selected_continents :
+    df_cars_merge = pd.concat([df_cars_merge, df_cars.loc[df_cars["continent"] == " Japan."]])
+elif df_cars_merge.empty :
+    df_cars_merge = df_cars
 
 # Affichez le DataFrame trié
-st.write("DataFrame trié:")
-st.write(df_cars_merge)
+st.write("DataFrame trié :")
+df_cars_merge
+st.write('\n')
 
 def summarize(df) :
 
